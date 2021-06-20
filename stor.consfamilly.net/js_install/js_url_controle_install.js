@@ -602,7 +602,7 @@ var index_f= {
         $_panier = "<div class='' role='group' aria-label='Basic example'>";
 
         var i=0;   
-
+        var j=0;
         // controle resultat de la valeur 
 
         for(i;i<length_data;i++){
