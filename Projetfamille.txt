@@ -1,0 +1,29 @@
+1-Pojet gestion familliale 
+    le projet consistera a gerer la familliale
+    liste de la famille 
+    sassurance familialle 
+    suivie sollaire
+    aide familliale 
+    gestion de groupe 
+    contisation famillialle 
+    planification familliale 
+    union famialliale 
+
+2-liste des diferrents language utiliser 
+    1-java
+    2-javascript
+    3-php
+    4-json 
+    5-scss-css 
+    6-xml code 
+
+3- serveur utiliser 
+    1-mysql 
+    2-sqlite
+4-element exterieur
+    1- BOOSTRAP 
+    2- commande 
+    3-maitrise de relation humaine 
+    
+
+4sui
