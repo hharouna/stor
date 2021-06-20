@@ -1,0 +1,13 @@
+
+/*responsive formulaire administration*/
+@media only screen and (max-width: 500px) {
+  
+    .position-absolute {
+    position: inherit !important;
+}
+.translate-middle {
+    transform: none !important;
+}
+  }
+}
+

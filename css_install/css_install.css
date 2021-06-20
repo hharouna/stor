@@ -1,0 +1,144 @@
+
+
+
+
+
+/*
+listes des ensembles des sessions ouvertes sur les sites
+
+Session {connection, bannier, menu, contenu, publicite, pieddepage}; 
+
+*/
+
+:root {
+
+--coleur-shadow : rgba(255,255,255,0.2);
+--coleur-shadow-hot :  rgba(77, 0, 0, 0.5) ; 
+--coleur-fond-body : rgb(38, 38, 158);
+
+}
+
+
+.body {
+    display: grid;
+    background-color: var(--coleur-fond-body);
+   
+    margin: 0 auto;
+   }
+
+
+   /*
+   activation grid body 
+   liste des session main
+   header, main , contener, footer 
+   */
+
+.body > * {
+    display: grid;
+}
+ 
+.header {
+  background-color: var(--coleur-shadow);
+  grid-column-start: 2;
+  grid-column-end: 6;
+  grid-gap: 10px;
+}
+
+.main { 
+    grid-template-columns:  1fr repeat(5,1fr);
+    grid-template-rows: repeat(10,1fr) ;
+    background-color:bisque;
+    grid-column: 2/5;
+    grid-row: 3/7 ;
+  }
+
+  .contener {
+    grid-template-columns:  1fr repeat(4,1fr);
+    grid-template-rows: repeat(5,1fr) ;
+    
+    grid-row: 3/7 ;
+    grid-column: 2/5;
+    grid-gap: 10px;
+    
+
+  }
+  .contener > *{ 
+      display: grid;
+      
+  }
+
+.img-right {
+
+grid-column-start: 1;
+grid-column-end: 6;
+grid-row-start: 2;
+grid-row-end: 3;
+background-color: cornsilk;
+
+}
+
+.shadow {
+    box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+}
+  .img {
+      
+     grid-column-start: 1;
+     grid-column-end: 6;
+     grid-row-start: 1;
+     grid-row-end: 2;
+     filter: blur(1px);
+  }
+  
+  
+  .footer{
+    background-color:darkgrey;
+     grid-row: 6/7 ;
+     grid-column: 1/7 ;
+  }
+
+
+
+div,span,
+h1,h2,h3,h4,h5,h6{ 
+
+    padding: 5px;
+}
+
+
+
+
+
+
+/*
+contenu @support (grip-area:auto) {
+
+    ensembles des contenus responsives
+}
+
+
+
+*/
+
+@supports (grid-area: auto){
+
+ 
+
+    /*
+    Ensemble des maitres Grip 
+    activations des Grips dans le conteneur 
+    
+
+    .ensemble> * , .c-s-footer {
+
+        display: grid;
+    }
+    */
+
+}
