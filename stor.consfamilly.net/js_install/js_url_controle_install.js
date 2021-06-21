@@ -285,9 +285,9 @@ var index_f= {
     
       if(data[rs_id]["Quantite"]==0){
         $('.art_type'+data[rs_id]["id_type"]).html(compilation.af_button_1(array_btn))
-   
+
          }else{
-          $('.art_type'+data[rs_id]["id_type"]).html(compilation.af_button_2(array_btn))
+        $('.art_type'+data[rs_id]["id_type"]).html(compilation.af_button_2(array_btn))
            }
      return array_btn; 
 
@@ -329,20 +329,20 @@ var index_f= {
 
     var tr ={
         contenu_td :function td(data){ 
-            
+
             var total =data['Q']*data['pv']
-            
-           return '<td>'+data['nom_article']+'</td>'+
-        '<td><button type="button" class="btn btn-info btn-sm" data-bs-toggle="tooltip"'+
-           'data-bs-placement="top" title="'+data['nom_article']+'">'+
-          '<i class="fas fa-info"></i></button></td>'+
-          '<td >'+data['Q']+'</td>'+
-         '<td>'+data['pv']+'</td>'+
-          '<td>'+total+'</td>'
-        }, 
-        total : function t(data){
+
+            return '<td>'+data['nom_article']+'</td>'+
+            '<td><button type="button" class="btn btn-info btn-sm" data-bs-toggle="tooltip"'+
+            'data-bs-placement="top" title="'+data['nom_article']+'">'+
+            '<i class="fas fa-info"></i></button></td>'+
+            '<td >'+data['Q']+'</td>'+
+            '<td>'+data['pv']+'</td>'+
+            '<td>'+total+'</td>'
+            }, 
+            total : function t(data){
             return ' <td colspan="4"> Total </td><td>'+data+'</td>';
-        }
+            }
 
 
     }
@@ -419,6 +419,7 @@ var index_f= {
              }else{
                       $('.modal-title').html(title); 
             $('.modal-body').html(compilation.return_liste_t_vente(result, id_article)) 
+            console.log(result)
              }
        
          }
@@ -483,7 +484,7 @@ var index_f= {
 
     }
     ,
-    controle_insert : function _controle(data_i,_id_art){
+    controle_insert : function _controle(data_i_,_id_art){
         /* controle des indexes avant affichage
         1) recuperation des donnees cote serveur sql 
         2) verification des insertions cote serveur indexed local
@@ -496,9 +497,9 @@ var index_f= {
             var db= index_f.open_indexDB(index_f.db,index_f.Version)
            /*
             if(db.transaction==null){
-                console.log(db)
+          
             console.log('null')
-            console.log(data_i)
+            console.log(db)
             return '<div class="art_type'+data_i['id_type']+'">'+compilation.af_button_1(data_i)+'</div>'
 
             } */
@@ -517,8 +518,8 @@ var index_f= {
             console.log('Tous les enregistrements ont été affichés.');
             
              var i =0; 
-     
-
+      
+            
  
             //-----------------
             t_getAll.onerror = function(event){
@@ -529,29 +530,30 @@ var index_f= {
             var r_getAll = Event.target.result
             
             // console.log(r_getAll[0]['id_article']+'-------------'+ r_getAll.length+'-------------'+ id_art +'-------------'+ t_id_type)
-            console.log(r_getAll+'----')
-           
+            //console.log(r_getAll+'----')
+        
 
 
             if(r_getAll.length==0){
                 console.log('0')
-                console.log(data_i)
-               
-            return '<div class="art_type'+data_i['id_type']+'">'+compilation.af_button_1(data_i)+'</div>'
+                console.log(data_i_)
+                console.log('1--')
+            return '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
              
             }else if(r_getAll.length>0){
 
                 for(i; i<r_getAll.length; i++){
-                    if(r_getAll[i]['id_article']==_id_art && r_getAll[i]['id_type']==data_i['id_type']){
-                        alert('btn_1')
-                        console.log('2--')
-                 return '<div class="art_type'+r_getAll[i]['id_type']+'">'+compilation.af_button_2(r_getAll[i])+'</div>'
-                        
-                   }else{
+                    if(r_getAll[i]['id_article']==_id_art && r_getAll[i]['id_type']==data_i_['id_type']){
 
-                   alert('btn_1')
-                   console.log('3--')
-                 return '<div class="art_type'+data_i['id_type']+'">'+compilation.af_button_1(data_i)+'</div>'
+                        console.log('2--')
+
+                return '<div class="art_type'+r_getAll[i]['id_type']+'">'+compilation.af_button_2(r_getAll[i])+'</div>'
+                  
+                }else{
+
+                    console.log('3--')
+                    console.log(data_i_['achat'])
+                return '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
                  
                           }
         
@@ -575,8 +577,8 @@ var index_f= {
             console.log(data)
     return "<button class='btn btn-outline-secondary btn-warning btn-sm value w-20 '"+
             "id_article='"+data['id_a_t']+"' n_liste='"+data['n_liste']+"' ADD='true' id_type='"+data['id_type']+"'  "+
-    "id_article='"+data['id_article']+"' n_liste='"+data['n_liste']+"' ADD='true' id_type='"+data['id_type']+"'  "+
-            "type='button' pv='"+data['pv']+"'  v='1' code='inser_session' pv='"+data['vente']+"'   n_liste='"+data['n_liste']+"' >"+
+    "id_article='"+data['id_a_t']+"' n_liste='"+data['n_liste']+"' ADD='true' id_type='"+data['id_type']+"'  "+
+            "type='button' pv='"+data['vente']+"'  v='1' code='inser_session' pv='"+data['vente']+"'   n_liste='"+data['n_liste']+"' >"+
             "Ajouter au panier </button>";
  
     },af_button_2 : function _button(data){
@@ -602,18 +604,19 @@ var index_f= {
         $_panier = "<div class='' role='group' aria-label='Basic example'>";
 
         var i=0;   
-        var j=0;
+        
         // controle resultat de la valeur 
 
         for(i;i<length_data;i++){
-
+            var rs_return = { achat: data[i]['achat'], vente: data[i]['vente'], id_type: data[i]['id_type'], id_a_t: data[i]['id_a_t'], n_liste: data[i]['n_liste'], info: data[i]['info'] }
+   
         $_panier+= " <div class='input-group ' role='group' aria-label='...>"+
         "<span class='input-group-text w-500' id_type='"+data[i]['id_type']+"'"+
         " id_t_art='"+data[i]['id_type']+"' id_art='"+id_art+"'>"+data[i]['n_liste']+'--'+id_art+ "</span>"+
         "      </div> "
-        $_panier+= 'commande '+compilation.controle_insert(data[i],id_art)
-        $_panier+= "  </div>   </div>";
-
+        $_panier+= 'panier'+ compilation.controle_insert(rs_return,id_art)
+        $_panier+= " </div> "+ data[i]['id_type']+"  </div>";
+   
         }
 
 
@@ -621,7 +624,7 @@ var index_f= {
         $_panier+='<div class="panier form-control shadow-sm mt-2">ici panier </div>';
         $_panier+='</tbody></table> </div>';
 
-        console.log(data)
+        //console.log(data)
         return $_panier; 
 
     } 
