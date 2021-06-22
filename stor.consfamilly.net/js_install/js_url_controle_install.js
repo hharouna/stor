@@ -492,15 +492,15 @@ var index_f= {
 
         // 2)
 
- 
-
+           var  rs_turn = '';
+            
             var db= index_f.open_indexDB(index_f.db,index_f.Version)
            /*
             if(db.transaction==null){
           
             console.log('null')
             console.log(db)
-            return '<div class="art_type'+data_i['id_type']+'">'+compilation.af_button_1(data_i)+'</div>'
+            return '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
 
             } */
             db.onerror = function(Event){
@@ -538,7 +538,8 @@ var index_f= {
                 console.log('0')
                 console.log(data_i_)
                 console.log('1--')
-            return '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
+                
+                rs_turn += '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
              
             }else if(r_getAll.length>0){
 
@@ -547,17 +548,20 @@ var index_f= {
 
                         console.log('2--')
 
-                return '<div class="art_type'+r_getAll[i]['id_type']+'">'+compilation.af_button_2(r_getAll[i])+'</div>'
+                        rs_turn += '<div class="art_type'+r_getAll[i]['id_type']+'">'+compilation.af_button_2(r_getAll[i])+'</div>'
                   
                 }else{
 
                     console.log('3--')
                     console.log(data_i_['achat'])
-                return '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
+               rs_turn +=  '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
                  
                           }
-        
+              return   rs_turn; 
               }
+              alert(rs_turn)
+            return rs_turn; 
+
             }else{
                 console.log("Erreur af_button")
             }
@@ -614,7 +618,7 @@ var index_f= {
         "<span class='input-group-text w-500' id_type='"+data[i]['id_type']+"'"+
         " id_t_art='"+data[i]['id_type']+"' id_art='"+id_art+"'>"+data[i]['n_liste']+'--'+id_art+ "</span>"+
         "      </div> "
-        $_panier+= 'panier'+ compilation.controle_insert(rs_return,id_art)
+        $_panier+= compilation.controle_insert(data[i],id_art)
         $_panier+= " </div> "+ data[i]['id_type']+"  </div>";
    
         }
