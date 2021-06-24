@@ -572,7 +572,7 @@ var index_f= {
             
 
             }
-
+ 
 
     }, 
     af_button_1 : function _button(data){
