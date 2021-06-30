@@ -417,9 +417,11 @@ var index_f= {
                 $('.modal-title').html(title); 
                 $('.modal-body').html("<center> <h2>Aucun resultat</h2> </center>")
              }else{
-                      $('.modal-title').html(title); 
-            $('.modal-body').html(compilation.return_liste_t_vente(result, id_article)) 
-            console.log(result)
+
+                $('.modal-title').html(title); 
+                $('.modal-body').html(compilation.return_liste_t_vente(result)) 
+                console.log(result)
+                
              }
        
          }
@@ -484,7 +486,7 @@ var index_f= {
 
     }
     ,
-    controle_insert : function _controle(data_i_,_id_art){
+    controle_insert : function _controle(_data){
         /* controle des indexes avant affichage
         1) recuperation des donnees cote serveur sql 
         2) verification des insertions cote serveur indexed local
@@ -492,9 +494,8 @@ var index_f= {
 
         // 2)
 
-           var  rs_turn = '';
-            
-            var db= index_f.open_indexDB(index_f.db,index_f.Version)
+        
+           var db= index_f.open_indexDB(index_f.db,index_f.Version)
            /*
             if(db.transaction==null){
           
@@ -518,6 +519,7 @@ var index_f= {
             console.log('Tous les enregistrements ont été affichés.');
             
              var i =0; 
+             var j= 0; 
       
             
  
@@ -528,111 +530,197 @@ var index_f= {
 
             t_getAll.onsuccess = function(Event){
             var r_getAll = Event.target.result
+            // recuperation donnees cote serveur sql 
+            var length_data = _data.length
+         
             
-            // console.log(r_getAll[0]['id_article']+'-------------'+ r_getAll.length+'-------------'+ id_art +'-------------'+ t_id_type)
-            //console.log(r_getAll+'----')
-        
 
+                if(r_getAll.length==0){
 
-            if(r_getAll.length==0){
-                console.log('0')
-                console.log(data_i_)
-                console.log('1--')
-                
-                rs_turn += '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
-             
-            }else if(r_getAll.length>0){
+                var rt_all = {'t_info':data_i_, 't_true':false}
+                return  rt_all  ; 
 
+                }else if(r_getAll.length>0){
+            var  rt_all ; 
+            var article = '';
+
+            for(j;j<length_data; j++){
+           article += _data[j]['id_type']
+
+  
+               /* 
                 for(i; i<r_getAll.length; i++){
-                    if(r_getAll[i]['id_article']==_id_art && r_getAll[i]['id_type']==data_i_['id_type']){
 
-                        console.log('2--')
-
-                        rs_turn += '<div class="art_type'+r_getAll[i]['id_type']+'">'+compilation.af_button_2(r_getAll[i])+'</div>'
-                  
-                }else{
-
-                    console.log('3--')
-                    console.log(data_i_['achat'])
-               rs_turn +=  '<div class="art_type'+data_i_['id_type']+'">'+compilation.af_button_1(data_i_)+'</div>'
-                 
-                          }
-              return   rs_turn; 
-              }
-              alert(rs_turn)
-            return rs_turn; 
-
-            }else{
-                console.log("Erreur af_button")
-            }
-     
-        }
-        
-
+                if(r_getAll[i]['id_article']==_id_art && r_getAll[i]['id_type']==data_i_['id_type']){
+               
+                    rt_all += {'t_info':r_getAll[i], 't_true':true}
+                   
+                      
+                }
+                 console.log(rt_all) 
+                 return rt_all;
+                
+                }
             
+           
+             
+                var rt_all = {'t_info':data_i_, 't_true':false}
+                var rt_JSON = rt_all
+                console.log(rt_JSON)
+                return data_i_; */
+            
+            } 
+            console.log(_data)
+            return JSON.parse(article); 
+
+                }else{
+                console.log('Erreur -> resultat indexedb')
+                }
 
             }
- 
+
+        }
 
     }, 
-    af_button_1 : function _button(data){
+    af_button : function _button(t_array){
 
-            console.log('1')
-            console.log(data)
-    return "<button class='btn btn-outline-secondary btn-warning btn-sm value w-20 '"+
-            "id_article='"+data['id_a_t']+"' n_liste='"+data['n_liste']+"' ADD='true' id_type='"+data['id_type']+"'  "+
-    "id_article='"+data['id_a_t']+"' n_liste='"+data['n_liste']+"' ADD='true' id_type='"+data['id_type']+"'  "+
-            "type='button' pv='"+data['vente']+"'  v='1' code='inser_session' pv='"+data['vente']+"'   n_liste='"+data['n_liste']+"' >"+
+          /*
+          t_Array 
+          t_true = true btn2 ou false btn2
+          t_info = ensembles des informations
+
+          */  
+          var d_str = JSON.stringify(t_array)
+          var d_parse= JSON.parse(d_str)
+          var rt_btn;
+
+      if(d_parse.t_true==false){
+        console.log(t_array)
+
+            rt_btn = "<button class='btn btn-outline-secondary btn-warning btn-sm value w-20 '"+
+            "id_article='"+d_parse.t_info.id_a_t+"' n_liste='"+d_parse.t_info.n_liste+"' ADD='true' id_type='"+d_parse.t_info.id_type+"' "+
+            "type='button'  v='1' code='inser_session' pv='"+d_parse.t_info.vente+"'   n_liste='"+d_parse.t_info.n_liste+"' >"+
             "Ajouter au panier </button>";
- 
-    },af_button_2 : function _button(data){
 
-    console.log('2')
-    return "<button class='btn btn-outline-secondary btn-sm value w-20 '"+
-    "id_article='"+data['id_article']+"' n_liste='"+data['n_liste']+"' ADD='true' id_type='"+data['id_type']+"'  "+
-    "type='button'  v='1' code='inser_session' pv='"+data['PV']+"'   n_liste='"+data['n_liste']+"' >"+
-    "<i class='fas fa-plus'></i></button><input type='text' class='form-control q_input q"+data['PV']+" w-20' "+
-    "pv='"+data['pv']+"' n_liste='"+data['n_liste']+"' "+
-    "id_article='"+data['id_article']+"' n_liste='"+data['n_liste']+"' ADD='input' id_type='"+data['id_type']+"' "+
-    "placeholder='0' aria-label='Example text with two button addons ' value='"+data['Quantite']+"' />"+
-    "<button class='btn btn-outline-secondary btn-sm value w-20'"+
-    "code='unset_session'type='button' id_article='"+data['id_article']+"' ADD='false' n_liste='"+data['n_liste']+"'"+
-    "pv='"+data['pv']+"'   id_type='"+data['id_type']+"' "+
-    "v='-1'><i class='fas fa-minus'></i></button> ";   
-},
-    return_liste_t_vente: function panier(data,id_art){
-        //data ici return les valeurs serveur sql
-        var $_panier; 
-        var length_data=data.length
+         
 
-        $_panier = "<div class='' role='group' aria-label='Basic example'>";
+        }else if(d_parse.t_true==true){
 
-        var i=0;   
+       
         
-        // controle resultat de la valeur 
+  
+            rt_btn = "<button class='btn btn-outline-secondary btn-sm value w-20 ' "+
+            "id_article='"+d_parse.t_info.id_article+"' n_liste='"+d_parse.t_info.n_liste+"' ADD='true' id_type='"+d_parse.t_info.id_type+"'  "+
+            "type='button'  v='1' code='inser_session' pv='"+d_parse.t_info.PV+"'   n_liste='"+d_parse.t_info.n_liste+"' >"+
+            "<i class='fas fa-plus'></i></button><input type='text' class='form-control q_input q"+d_parse.t_info.PV+" w-20' "+
+            "pv='"+d_parse.t_info.PV+"' n_liste='"+d_parse.t_info.n_liste+"' "+
+            "id_article='"+d_parse.t_info.id_article+"' n_liste='"+d_parse.t_info.n_liste+"' ADD='input' id_type='"+d_parse.t_info.id_type+"' "+
+            "placeholder='0' aria-label='Example text with two button addons ' value='"+d_parse.t_info.Quantite+"' />"+
+            "<button class='btn btn-outline-secondary btn-sm value w-20'"+
+            "code='unset_session' type='button' id_article='"+d_parse.t_info.id_article+"' ADD='false' n_liste='"+d_parse.t_info.n_liste+"'"+
+            "pv='"+d_parse.t_info.PV+"'   id_type='"+d_parse.t_info.id_type+"' "+
+            "v='-1'><i class='fas fa-minus'></i></button> ";   
 
-        for(i;i<length_data;i++){
-            var rs_return = { achat: data[i]['achat'], vente: data[i]['vente'], id_type: data[i]['id_type'], id_a_t: data[i]['id_a_t'], n_liste: data[i]['n_liste'], info: data[i]['info'] }
-   
-        $_panier+= " <div class='input-group ' role='group' aria-label='...>"+
-        "<span class='input-group-text w-500' id_type='"+data[i]['id_type']+"'"+
-        " id_t_art='"+data[i]['id_type']+"' id_art='"+id_art+"'>"+data[i]['n_liste']+'--'+id_art+ "</span>"+
-        "      </div> "
-        $_panier+= compilation.controle_insert(data[i],id_art)
-        $_panier+= " </div> "+ data[i]['id_type']+"  </div>";
-   
+          
+           console.log(rt_btn)
+return rt_btn
+    
+        }else{
+
+        console.log(" erreur -> return btn ")
+
         }
 
+},
+    return_liste_t_vente: function _panier(data){
 
-        $_panier+='</ul> ';
-        $_panier+='<div class="panier form-control shadow-sm mt-2">ici panier </div>';
-        $_panier+='</tbody></table> </div>';
+  /* controle des indexes avant affichage
+        1) recuperation des donnees cote serveur sql 
+        2) verification des insertions cote serveur indexed local
+        3) controle et affichage du panier */
 
-        //console.log(data)
-        return $_panier; 
+        // 2)   
+        var data_Json = JSON.stringify(data)
+        var data_parse = JSON.parse(data_Json)
+        var data_json_length = data_parse.length
+        var length_data = data_Json
+        alert(data_json_length)
+        
+        var i =0; 
+        var j= 0; 
+        var article=''; 
+        var db= index_f.open_indexDB(index_f.db,index_f.Version)
+        /* 
+         if(db.transaction==null){
+       
+         console.log('null')
+         console.log(db)
+         return '<div class="art_type">'+compilation.af_button(data)+'</div>'
 
-    } 
-    ,
+         } 
+         db.onerror = function(Event){
+             alert('probleme de connexion a la basse de donnees')
+         } 
+
+        */
+         db.onsuccess = function(Event){
+         var t_db = Event.target.result
+        
+         var transaction = t_db.transaction(["Vente"],'readonly')
+         var objectStore = transaction.objectStore('Vente')
+         var t_getAll = objectStore.getAll(); 
+         var t_index = objectStore.index('id_type')
+         
+         console.log('Tous les enregistrements ont été affichés.');
+
+         for(i; i<data_json_length; i++){
+
+            var t_get = t_index.get(data_parse[i].id_type)
+            console.log(t_get)
+            console.log(data_parse[i].id_type)
+
+        t_get.onerror= function(Event){
+           
+           
+           console.log('pas defini')
+        /*
+           var rs_info = {'t_info':data_parse[i], 't_true':false}
+           article += compilation.af_button(rs_info)
+      */
+        }
+
+       t_get.onsuccess = function(Event){
+           var rs_t_get = Event.target.result
+           var l =JSON.stringify(rs_t_get)
+           
+                   
+        if(rs_t_get===undefined){
+
+        var l =JSON.stringify(data_parse[i])
+        //var t = JSON.parse(l) 
+       console.log('undefined'+data_parse[i].id_type)
+       var rs_info = {'t_info':l, 't_true':false}
+       article += compilation.af_button(rs_info)
+
+        }
+        else{
+        var l =JSON.stringify(rs_t_get)
+        var t = JSON.parse(l) 
+        var rs_info = {'t_info':t, 't_true':true}
+        article += compilation.af_button(rs_info)
+
+        }
+          $('.modal-body').html(article)
+    }
+}
+     //return article
+}   
+  // alert(article)
+ // console.log(article)
+           
+
+ }  
+      ,
     insert_session :  function l_liste(_data){
        
         $.ajax({ 
