@@ -419,7 +419,7 @@ var index_f= {
              }else{
 
                 $('.modal-title').html(title); 
-                $('.modal-body').html(compilation.return_liste_t_vente(result)) 
+                compilation.return_liste_t_vente(result)
                 console.log(result)
                 
              }
@@ -590,19 +590,20 @@ var index_f= {
           t_info = ensembles des informations
 
           */  
+         console.log(t_array)
           var d_str = JSON.stringify(t_array)
           var d_parse= JSON.parse(d_str)
-          var rt_btn;
+          var rt_btn='';
 
       if(d_parse.t_true==false){
-        console.log(t_array)
-
-            rt_btn = "<button class='btn btn-outline-secondary btn-warning btn-sm value w-20 '"+
+        
+       
+          rt_btn = "<button class='btn btn-outline-secondary btn-warning btn-sm value w-20 '"+
             "id_article='"+d_parse.t_info.id_a_t+"' n_liste='"+d_parse.t_info.n_liste+"' ADD='true' id_type='"+d_parse.t_info.id_type+"' "+
             "type='button'  v='1' code='inser_session' pv='"+d_parse.t_info.vente+"'   n_liste='"+d_parse.t_info.n_liste+"' >"+
-            "Ajouter au panier </button>";
-
-         
+            "Ajouter au panier </button>"; 
+           console.log(rt_btn)
+            return rt_btn
 
         }else if(d_parse.t_true==true){
 
@@ -622,8 +623,8 @@ var index_f= {
             "v='-1'><i class='fas fa-minus'></i></button> ";   
 
           
-           console.log(rt_btn)
-return rt_btn
+        console.log(rt_btn)
+       return rt_btn
     
         }else{
 
@@ -643,26 +644,13 @@ return rt_btn
         var data_Json = JSON.stringify(data)
         var data_parse = JSON.parse(data_Json)
         var data_json_length = data_parse.length
-        var length_data = data_Json
-        alert(data_json_length)
+         console.log(data)
         
-        var i =0; 
-        var j= 0; 
+      
+   
         var article=''; 
         var db= index_f.open_indexDB(index_f.db,index_f.Version)
-        /* 
-         if(db.transaction==null){
-       
-         console.log('null')
-         console.log(db)
-         return '<div class="art_type">'+compilation.af_button(data)+'</div>'
-
-         } 
-         db.onerror = function(Event){
-             alert('probleme de connexion a la basse de donnees')
-         } 
-
-        */
+      
          db.onsuccess = function(Event){
          var t_db = Event.target.result
         
@@ -672,52 +660,48 @@ return rt_btn
          var t_index = objectStore.index('id_type')
          
          console.log('Tous les enregistrements ont été affichés.');
-
-         for(i; i<data_json_length; i++){
+           
+         var i =0; 
+         for(i;i<data_json_length;i++){
 
             var t_get = t_index.get(data_parse[i].id_type)
-            console.log(t_get)
-            console.log(data_parse[i].id_type)
 
-        t_get.onerror= function(Event){
-           
-           
-           console.log('pas defini')
-        /*
-           var rs_info = {'t_info':data_parse[i], 't_true':false}
-           article += compilation.af_button(rs_info)
-      */
-        }
+            t_get.onerror= function(Event){
+             location.reload
+            }
 
-       t_get.onsuccess = function(Event){
-           var rs_t_get = Event.target.result
-           var l =JSON.stringify(rs_t_get)
-           
-                   
-        if(rs_t_get===undefined){
+            var data_i = data_parse[i]
+      
+            if(t_get.onsuccess==null){
+            console.log(t_get.onsuccess)//always null
+            var rs_info = {'t_info': data_i, 't_true':false}
+            article += compilation.af_button(rs_info)
+             
+            }else if(t_get.onsuccess==true){ 
 
-        var l =JSON.stringify(data_parse[i])
-        //var t = JSON.parse(l) 
-       console.log('undefined'+data_parse[i].id_type)
-       var rs_info = {'t_info':l, 't_true':false}
-       article += compilation.af_button(rs_info)
+            console.log(t_get.onsuccess)//always null instead of true
+            console.log(t_get)//
 
-        }
-        else{
-        var l =JSON.stringify(rs_t_get)
-        var t = JSON.parse(l) 
-        var rs_info = {'t_info':t, 't_true':true}
-        article += compilation.af_button(rs_info)
+            t_get.onsuccess = function(Event){
+            
+            var rs_t_get = Event.target.result
+            console.log(rs_t_get)
+            var l =JSON.stringify(rs_t_get)
+            var t = JSON.parse(l) 
+            var rs_info = {'t_info':t, 't_true':true}
+            article += compilation.af_button(rs_info)
+            
+            }
+          
+            }
 
         }
-          $('.modal-body').html(article)
-    }
-}
-     //return article
+
+$('.modal-body').html(article)
+     
+   
 }   
-  // alert(article)
- // console.log(article)
-           
+
 
  }  
       ,
